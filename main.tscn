@@ -35,8 +35,6 @@ script = ExtResource("1_ksrux")
 [node name="NetCode" type="Node2D" parent="."]
 script = ExtResource("2_x4vic")
 
-[node name="HTTPRequest" type="HTTPRequest" parent="NetCode"]
-
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_right = 1154.0
 offset_bottom = 640.0
@@ -85,6 +83,14 @@ offset_top = 521.0
 offset_right = 865.0
 offset_bottom = 582.0
 theme_override_font_sizes/font_size = 30
+
+[node name="Challenge" type="Button" parent="Lobby"]
+offset_left = 904.0
+offset_top = 264.0
+offset_right = 1053.0
+offset_bottom = 314.0
+theme_override_font_sizes/font_size = 30
+text = "Challenge"
 
 [node name="Menu" type="Node2D" parent="."]
 visible = false
@@ -232,10 +238,12 @@ offset_bottom = 638.0
 theme_override_font_sizes/font_size = 25
 text = "Buy Platium Tokens"
 
+[connection signal="register_response" from="NetCode" to="Lobby" method="_on_net_code_register_response"]
 [connection signal="users_response" from="NetCode" to="Lobby" method="_on_net_code_users_response"]
 [connection signal="load_users" from="Lobby" to="NetCode" method="_on_lobby_load_users"]
 [connection signal="register" from="Lobby" to="NetCode" method="_on_lobby_register"]
 [connection signal="pressed" from="Lobby/Register" to="Lobby" method="_on_register_pressed"]
+[connection signal="pressed" from="Lobby/Challenge" to="Lobby" method="_on_challenge_pressed"]
 [connection signal="pressed" from="Menu/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Game/Controls/LockIn" to="Game" method="_on_lock_in_pressed"]
 [connection signal="pressed" from="Game/Controls/One" to="Game" method="_on_one_pressed"]
