@@ -1,0 +1,61 @@
+[gd_scene load_steps=6 format=3 uid="uid://c7lgorhb62ah1"]
+
+[ext_resource type="Script" path="res://Hearts.gd" id="1_d25ph"]
+[ext_resource type="Texture2D" uid="uid://yxiewluvw5hi" path="res://assets/icons.png" id="2_dbvay"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0rgg1"]
+atlas = ExtResource("2_dbvay")
+region = Rect2(90, 60, 10, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_em8fa"]
+atlas = ExtResource("2_dbvay")
+region = Rect2(90, 50, 10, 10)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nxx4p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0rgg1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_em8fa")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Node2D" type="Node2D"]
+texture_filter = 1
+texture_repeat = 1
+scale = Vector2(6, 6)
+script = ExtResource("1_d25ph")
+
+[node name="AnimatedSprite2D5" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 1
+position = Vector2(0, 40)
+sprite_frames = SubResource("SpriteFrames_nxx4p")
+
+[node name="AnimatedSprite2D4" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 1
+position = Vector2(0, 30)
+sprite_frames = SubResource("SpriteFrames_nxx4p")
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 1
+position = Vector2(0, 20)
+sprite_frames = SubResource("SpriteFrames_nxx4p")
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 1
+position = Vector2(0, 10)
+sprite_frames = SubResource("SpriteFrames_nxx4p")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 1
+sprite_frames = SubResource("SpriteFrames_nxx4p")
