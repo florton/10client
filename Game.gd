@@ -31,20 +31,21 @@ var turnNumber = 0
 
 var playerChoice
 var playerHp
-var opponentHp
 var opponentChoice
+var opponentHp
+
+var endturn = false
 
 func loadMatch(id):
 	if !isPaused:
 		emit_signal("load_match", id)
 		print("load match")
-		await get_tree().create_timer(3).timeout
+		await get_tree().create_timer(2).timeout
 		loadMatch(id)
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
-	
 
 func _on_net_code_load_match_response(matchData):
 	if matchData && matchData.players:
@@ -56,9 +57,18 @@ func _on_net_code_load_match_response(matchData):
 	playerHp = player.health
 	opponentHp = opponent.health
 	opponentLockedIn = opponent.choice
-	print(userId)
 	playerAttacking = matchData.attacker == userId
-	turnNumber = matchData.turn
+	#End turn
+	if turnNumber != matchData.turn:
+		turnNumber = matchData.turn
+		opponentChoice = opponent.prevChoice
+		opponentLockedIn = false
+		endturn = true
+	elif endturn:
+		opponentChoice = '?'
+		playerChoice = '?'
+		lockedIn = false
+		endturn = false
 
 func startGame(uId, mId):
 	userId = uId
@@ -77,8 +87,8 @@ func _process(delta):
 		OpntHp.hp = opponentHp
 		PlyrChoice.text = playerChoice
 		OpntChoice.text = opponentChoice
-		PlyrInfo.text = '' if !lockedIn else 'Locked In'
-		OpntInfo.text = 'Choosing' if !opponentLockedIn else 'Locked In'
+		PlyrInfo.text = '' if !lockedIn || endturn else 'Locked In'
+		OpntInfo.text = '' if endturn else ('Choosing' if !opponentLockedIn else 'Locked In')
 		PlyrAttacking.text = 'Attacking' if playerAttacking else 'Defending'
 		PlyrAttacking.set("theme_override_colors/font_color", Color(1,0,0) if !playerAttacking else Color(0,1,0))
 		OpntAttacking.text = 'Attacking' if !playerAttacking else 'Defending'

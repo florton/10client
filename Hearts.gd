@@ -10,8 +10,5 @@ func _ready():
 func _process(delta):
 	var i = 0
 	for node in get_children():
-		if i < hp:
-			node.frame = 0
-		else:
-			node.frame = 1
+		node.frame = 0 if i < hp else 1
 		i+=1
