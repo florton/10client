@@ -4,16 +4,21 @@ extends Node2D
 @onready var PlyrName = Info.find_child("PlyrName")
 @onready var PlyrChoice = Info.find_child("PlyrChoice")
 @onready var PlyrInfo = Info.find_child("PlyrInfo")
+@onready var PlyrPrev = Info.find_child("PlyrPrev")
+@onready var PlyrPrevLabel = Info.find_child("PlyrPrevLabel")
 @onready var PlyrAttacking = Info.find_child("PlyrAttacking")
 @onready var PlyrHp = Info.find_child("PlyrHp")
 @onready var PlyrAtkIcon = Info.find_child("PlyrAtkIcon")
 @onready var OpntChoice = Info.find_child("OpntChoice")
 @onready var OpntInfo = Info.find_child("OpntInfo")
+@onready var OpntPrev = Info.find_child("OpntPrev")
+@onready var OpntPrevLabel = Info.find_child("OpntPrevLabel")
 @onready var OpntName = Info.find_child("OpntName")
 @onready var OpntAttacking = Info.find_child("OpntAttacking")
 @onready var OpntHp = Info.find_child("OpntHp")
 @onready var OpntAtkIcon = Info.find_child("OpntAtkIcon")
 @onready var Turn = Info.find_child("Turn")
+@onready var Outcome = Info.find_child("Outcome")
 
 signal load_match
 signal lock_in
@@ -29,15 +34,21 @@ var opponentLockedIn = false
 var playerAttacking = false
 var turnNumber = 0
 
+var playerName
+var opponentName
 var playerChoice
+var playerPrevChoice
 var playerHp
 var opponentChoice
+var opponentPrevChoice
 var opponentHp
+var outcome
 
 var endturn = false
+var gameOver = false
 
 func loadMatch(id):
-	if !isPaused:
+	if !isPaused && !gameOver:
 		emit_signal("load_match", id)
 		print("load match")
 		await get_tree().create_timer(2).timeout
@@ -46,6 +57,24 @@ func loadMatch(id):
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
+
+func getOutcome(pAttacking, pChoice, oChoice):
+	var defenderName = strFallback(opponentName if pAttacking else playerName)
+	if pChoice == oChoice:
+		return defenderName + '\n Blocked!'
+	else:
+		var damage = '1'
+		if (pAttacking && pChoice == '1') || (!pAttacking && oChoice == '1'):
+			damage = '2'
+		return defenderName + '\n Took ' + damage + '\n Damage'
+		
+func checkDeaths():
+	if playerHp <= 0:
+		gameOver = true
+		outcome = "You \n Lose!"
+	if opponentHp <= 0:
+		gameOver = true
+		outcome = "You \n Win!"
 
 func _on_net_code_load_match_response(matchData):
 	if matchData && matchData.players:
@@ -57,18 +86,24 @@ func _on_net_code_load_match_response(matchData):
 	playerHp = player.health
 	opponentHp = opponent.health
 	opponentLockedIn = opponent.choice
-	playerAttacking = matchData.attacker == userId
+	playerName = player.name
+	opponentName = opponent.name
 	#End turn
 	if turnNumber != matchData.turn:
 		turnNumber = matchData.turn
+		outcome = getOutcome(playerAttacking, playerChoice, opponent.prevChoice)
 		opponentChoice = opponent.prevChoice
 		opponentLockedIn = false
 		endturn = true
 	elif endturn:
 		opponentChoice = '?'
 		playerChoice = '?'
+		playerPrevChoice = player.prevChoice
+		opponentPrevChoice = opponent.prevChoice
 		lockedIn = false
 		endturn = false
+		checkDeaths()
+	playerAttacking = matchData.attacker == userId
 
 func startGame(uId, mId):
 	userId = uId
@@ -80,15 +115,27 @@ func startGame(uId, mId):
 	isPaused = false
 	loadMatch(matchId)
 
+func strFallback(val):
+	return val if val else ''
+	
+func boolFallback(val):
+	return true if val else false
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if !isPaused:
+		PlyrName.text = strFallback(playerName)
+		OpntName.text = strFallback(opponentName)
 		PlyrHp.hp = playerHp
 		OpntHp.hp = opponentHp
 		PlyrChoice.text = playerChoice
 		OpntChoice.text = opponentChoice
 		PlyrInfo.text = '' if !lockedIn || endturn else 'Locked In'
 		OpntInfo.text = '' if endturn else ('Choosing' if !opponentLockedIn else 'Locked In')
+		PlyrPrevLabel.visible = boolFallback(playerPrevChoice)
+		PlyrPrev.text = strFallback(playerPrevChoice)
+		OpntPrevLabel.visible = boolFallback(opponentPrevChoice)
+		OpntPrev.text = strFallback(opponentPrevChoice)
 		PlyrAttacking.text = 'Attacking' if playerAttacking else 'Defending'
 		PlyrAttacking.set("theme_override_colors/font_color", Color(1,0,0) if !playerAttacking else Color(0,1,0))
 		OpntAttacking.text = 'Attacking' if !playerAttacking else 'Defending'
@@ -96,16 +143,20 @@ func _process(delta):
 		PlyrAtkIcon.frame = 1 if playerAttacking else 0
 		OpntAtkIcon.frame = 1 if !playerAttacking else 0
 		Turn.text = 'Turn ' + str(turnNumber)
+		Outcome.text = strFallback(outcome)
 		
 func _on_lock_in_pressed():
-	if !lockedIn && matchId && userId && playerChoice:
+	if !lockedIn && matchId && userId && playerChoice && !gameOver:
 		lockedIn = true
 		emit_signal("lock_in", matchId, userId, playerChoice)
 
 func _on_one_pressed():
-	if !lockedIn:
+	if !lockedIn && !gameOver:
 		playerChoice = '1'
 
 func _on_zero_pressed():
-	if !lockedIn:
+	if !lockedIn && !gameOver:
 		playerChoice = '0'
+
+func _on_net_code_lock_in_response():
+	pass # Replace with function body.
