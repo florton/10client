@@ -6,7 +6,6 @@ extends Node2D
 signal register
 signal load_users
 signal challenge_user
-signal accept_challenge
 signal start_match
 
 var userId = null
@@ -39,7 +38,7 @@ func _on_accept_pressed():
 	var selection = Users.get_selected_items()
 	if len(selection) > 0:
 		var challengerId = users[selection[0]].id
-		emit_signal("accept_challenge", userId, challengerId)
+		emit_signal("challenge_user", userId, challengerId)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -74,8 +73,5 @@ func _on_net_code_register_response(id):
 	userId = id
 
 func _on_net_code_challenge_user_response():
-	pass # Replace with function body.
-
-func _on_net_code_accept_challenge_response():
 	pass # Replace with function body.
 

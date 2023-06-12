@@ -149,16 +149,17 @@ func _process(delta):
 		Outcome.text = strFallback(outcome)
 		
 func _on_lock_in_pressed():
-	if !lockedIn && matchId && userId && playerChoice && !gameOver:
-		lockedIn = true
-		emit_signal("lock_in", matchId, userId, playerChoice)
+	if !lockedIn && matchId && userId && playerChoice && !gameOver && !endturn:
+		if playerChoice == '1' ||  playerChoice == '0':
+			lockedIn = true
+			emit_signal("lock_in", matchId, userId, playerChoice)
 
 func _on_one_pressed():
-	if !lockedIn && !gameOver:
+	if !lockedIn && !gameOver && !endturn:
 		playerChoice = '1'
 
 func _on_zero_pressed():
-	if !lockedIn && !gameOver:
+	if !lockedIn && !gameOver && !endturn:
 		playerChoice = '0'
 
 func _on_net_code_lock_in_response():

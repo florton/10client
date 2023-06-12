@@ -285,7 +285,6 @@ position = Vector2(1109, 132)
 position = Vector2(758, 221)
 scale = Vector2(10, 10)
 sprite_frames = SubResource("SpriteFrames_aovd6")
-frame = 1
 
 [node name="Controls" type="Node2D" parent="Game"]
 metadata/_edit_lock_ = true
@@ -323,13 +322,11 @@ offset_bottom = 638.0
 theme_override_font_sizes/font_size = 25
 text = "Buy Platium Tokens"
 
-[connection signal="accept_challenge_response" from="NetCode" to="Lobby" method="_on_net_code_accept_challenge_response"]
 [connection signal="challenge_user_response" from="NetCode" to="Lobby" method="_on_net_code_challenge_user_response"]
 [connection signal="load_match_response" from="NetCode" to="Game" method="_on_net_code_load_match_response"]
 [connection signal="lock_in_response" from="NetCode" to="Game" method="_on_net_code_lock_in_response"]
 [connection signal="register_response" from="NetCode" to="Lobby" method="_on_net_code_register_response"]
 [connection signal="users_response" from="NetCode" to="Lobby" method="_on_net_code_users_response"]
-[connection signal="accept_challenge" from="Lobby" to="NetCode" method="_on_lobby_accept_challenge"]
 [connection signal="challenge_user" from="Lobby" to="NetCode" method="_on_lobby_challenge_user"]
 [connection signal="load_users" from="Lobby" to="NetCode" method="_on_lobby_load_users"]
 [connection signal="register" from="Lobby" to="NetCode" method="_on_lobby_register"]
