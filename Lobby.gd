@@ -15,10 +15,10 @@ var users = []
 var isPaused = false
 
 func loadUsers():
-	emit_signal("load_users")
-	print("load users")
-	await get_tree().create_timer(5).timeout
 	if !isPaused:
+		emit_signal("load_users")
+		print("load users")
+		await get_tree().create_timer(3).timeout
 		loadUsers()
 	
 # Called when the node enters the scene tree for the first time.

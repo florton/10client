@@ -43,6 +43,7 @@ mouse_filter = 2
 color = Color(0.0862745, 0.32549, 0.623529, 1)
 
 [node name="Lobby" type="Node2D" parent="."]
+visible = false
 script = ExtResource("3_bw8dh")
 
 [node name="Users" type="ItemList" parent="Lobby"]
@@ -124,10 +125,18 @@ theme_override_font_sizes/normal_font_size = 150
 text = "ONE ZERO"
 
 [node name="Game" type="Node2D" parent="."]
-visible = false
 script = ExtResource("1_ysi01")
 
 [node name="Info" type="Node2D" parent="Game"]
+
+[node name="Turn" type="Label" parent="Game/Info"]
+offset_left = 392.0
+offset_top = 10.0
+offset_right = 711.0
+offset_bottom = 103.0
+theme_override_font_sizes/font_size = 40
+text = "Turn 1"
+horizontal_alignment = 1
 
 [node name="PlyrName" type="Label" parent="Game/Info"]
 offset_left = 93.0
@@ -140,20 +149,29 @@ horizontal_alignment = 1
 
 [node name="PlyrChoice" type="Label" parent="Game/Info"]
 offset_left = 183.0
-offset_top = 150.0
+offset_top = 137.0
 offset_right = 305.0
-offset_bottom = 358.0
+offset_bottom = 345.0
 theme_override_colors/font_color = Color(0, 0.694118, 1, 1)
 theme_override_font_sizes/font_size = 150
 text = "0"
 horizontal_alignment = 1
 
-[node name="PlyrTurn" type="Label" parent="Game/Info"]
+[node name="PlyrInfo" type="Label" parent="Game/Info"]
+offset_left = 86.0
+offset_top = 316.0
+offset_right = 410.0
+offset_bottom = 419.0
+theme_override_font_sizes/font_size = 50
+text = "Locked In"
+horizontal_alignment = 1
+
+[node name="PlyrAttacking" type="Label" parent="Game/Info"]
 offset_left = 86.0
 offset_top = 96.0
 offset_right = 405.0
 offset_bottom = 189.0
-theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 1, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "Attacking"
 horizontal_alignment = 1
@@ -168,9 +186,9 @@ sprite_frames = SubResource("SpriteFrames_aovd6")
 frame = 1
 
 [node name="OpntChoice" type="Label" parent="Game/Info"]
-offset_left = 827.0
+offset_left = 852.0
 offset_top = 140.0
-offset_right = 943.0
+offset_right = 968.0
 offset_bottom = 348.0
 theme_override_colors/font_color = Color(0.764706, 0, 0, 1)
 theme_override_font_sizes/font_size = 150
@@ -178,38 +196,38 @@ text = "0"
 horizontal_alignment = 1
 
 [node name="OpntInfo" type="Label" parent="Game/Info"]
-offset_left = 698.0
-offset_top = 328.0
-offset_right = 1093.0
-offset_bottom = 468.0
+offset_left = 756.0
+offset_top = 322.0
+offset_right = 1080.0
+offset_bottom = 425.0
 theme_override_font_sizes/font_size = 50
 text = "Locked In"
 horizontal_alignment = 1
 
 [node name="OpntName" type="Label" parent="Game/Info"]
-offset_left = 734.0
+offset_left = 759.0
 offset_top = 14.0
-offset_right = 1053.0
+offset_right = 1078.0
 offset_bottom = 107.0
 theme_override_font_sizes/font_size = 40
 text = "Opponent"
 horizontal_alignment = 1
 
-[node name="OpntTurn" type="Label" parent="Game/Info"]
-offset_left = 725.0
+[node name="OpntAttacking" type="Label" parent="Game/Info"]
+offset_left = 750.0
 offset_top = 97.0
-offset_right = 1044.0
+offset_right = 1069.0
 offset_bottom = 190.0
-theme_override_colors/font_color = Color(0, 0.768627, 0.00784314, 1)
+theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "Defending"
 horizontal_alignment = 1
 
 [node name="OpntHp" parent="Game/Info" instance=ExtResource("1_4sxdb")]
-position = Vector2(1089, 127)
+position = Vector2(1114, 127)
 
 [node name="OpntAtkIcon" type="AnimatedSprite2D" parent="Game/Info"]
-position = Vector2(690, 266)
+position = Vector2(715, 266)
 scale = Vector2(10, 10)
 sprite_frames = SubResource("SpriteFrames_aovd6")
 
@@ -250,6 +268,8 @@ text = "Buy Platium Tokens"
 
 [connection signal="accept_challenge_response" from="NetCode" to="Lobby" method="_on_net_code_accept_challenge_response"]
 [connection signal="challenge_user_response" from="NetCode" to="Lobby" method="_on_net_code_challenge_user_response"]
+[connection signal="load_match_response" from="NetCode" to="Game" method="_on_net_code_load_match_response"]
+[connection signal="lock_in_response" from="NetCode" to="Game" method="_on_net_code_lock_in_response"]
 [connection signal="register_response" from="NetCode" to="Lobby" method="_on_net_code_register_response"]
 [connection signal="users_response" from="NetCode" to="Lobby" method="_on_net_code_users_response"]
 [connection signal="accept_challenge" from="Lobby" to="NetCode" method="_on_lobby_accept_challenge"]
@@ -261,6 +281,8 @@ text = "Buy Platium Tokens"
 [connection signal="pressed" from="Lobby/Challenge" to="Lobby" method="_on_challenge_pressed"]
 [connection signal="pressed" from="Lobby/Accept" to="Lobby" method="_on_accept_pressed"]
 [connection signal="pressed" from="Menu/Play" to="." method="_on_play_pressed"]
+[connection signal="load_match" from="Game" to="NetCode" method="_on_game_load_match"]
+[connection signal="lock_in" from="Game" to="NetCode" method="_on_game_lock_in"]
 [connection signal="pressed" from="Game/Controls/LockIn" to="Game" method="_on_lock_in_pressed"]
 [connection signal="pressed" from="Game/Controls/One" to="Game" method="_on_one_pressed"]
 [connection signal="pressed" from="Game/Controls/Zero" to="Game" method="_on_zero_pressed"]

@@ -1,56 +1,101 @@
 extends Node2D
 
-# Info
 @onready var Info = find_child("Info")
-@onready var PlyrName = find_child("PlyrName")
-@onready var PlyrChoice = find_child("PlyrChoice")
-@onready var PlyrTurn = find_child("PlyrTurn")
-@onready var PlyrHp = find_child("PlyrHp")
-@onready var PlyrAtkIcon = find_child("PlyrAtkIcon")
-@onready var OpntChoice = find_child("OpntChoice")
-@onready var OpntInfo = find_child("OpntInfo")
-@onready var OpntName = find_child("OpntName")
-@onready var OpntTurn = find_child("OpntTurn")
-@onready var OpntHp = find_child("OpntHp")
-@onready var OpntAtkIcon = find_child("OpntAtkIcon")
+@onready var PlyrName = Info.find_child("PlyrName")
+@onready var PlyrChoice = Info.find_child("PlyrChoice")
+@onready var PlyrInfo = Info.find_child("PlyrInfo")
+@onready var PlyrAttacking = Info.find_child("PlyrAttacking")
+@onready var PlyrHp = Info.find_child("PlyrHp")
+@onready var PlyrAtkIcon = Info.find_child("PlyrAtkIcon")
+@onready var OpntChoice = Info.find_child("OpntChoice")
+@onready var OpntInfo = Info.find_child("OpntInfo")
+@onready var OpntName = Info.find_child("OpntName")
+@onready var OpntAttacking = Info.find_child("OpntAttacking")
+@onready var OpntHp = Info.find_child("OpntHp")
+@onready var OpntAtkIcon = Info.find_child("OpntAtkIcon")
+@onready var Turn = Info.find_child("Turn")
+
+signal load_match
+signal lock_in
+
+var isPaused = true
 
 var userId = null
 var matchId = null
+var opponentId = null
 
-var paused = true
+var lockedIn = false
+var opponentLockedIn = false
+var playerAttacking = false
+var turnNumber = 0
+
+var playerChoice
 var playerHp
 var opponentHp
-var playerChoice
 var opponentChoice
-var opponentText
 
-func startGame(userId, matchId):
+func loadMatch(id):
+	if !isPaused:
+		emit_signal("load_match", id)
+		print("load match")
+		await get_tree().create_timer(3).timeout
+		loadMatch(id)
+	
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass
+	
+
+func _on_net_code_load_match_response(matchData):
+	if matchData && matchData.players:
+		for player in matchData.players.values():
+			if player.id != userId:
+				opponentId = player.id
+	var player = matchData.players[userId]
+	var opponent = matchData.players[opponentId]
+	playerHp = player.health
+	opponentHp = opponent.health
+	opponentLockedIn = opponent.choice
+	print(userId)
+	playerAttacking = matchData.attacker == userId
+	turnNumber = matchData.turn
+
+func startGame(uId, mId):
+	userId = uId
+	matchId = mId
 	playerHp = 5
 	opponentHp = 5
 	playerChoice = '?'
 	opponentChoice = '?'
-	opponentText = 'choosing'
-	paused = false
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	PlyrName.text = "Davy Jones"
-	pass # Replace with function body.
+	isPaused = false
+	loadMatch(matchId)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if (!paused):
+	if !isPaused:
 		PlyrHp.hp = playerHp
 		OpntHp.hp = opponentHp
-		OpntInfo.text = opponentText
 		PlyrChoice.text = playerChoice
 		OpntChoice.text = opponentChoice
+		PlyrInfo.text = '' if !lockedIn else 'Locked In'
+		OpntInfo.text = 'Choosing' if !opponentLockedIn else 'Locked In'
+		PlyrAttacking.text = 'Attacking' if playerAttacking else 'Defending'
+		PlyrAttacking.set("theme_override_colors/font_color", Color(1,0,0) if !playerAttacking else Color(0,1,0))
+		OpntAttacking.text = 'Attacking' if !playerAttacking else 'Defending'
+		OpntAttacking.set("theme_override_colors/font_color", Color(1,0,0) if playerAttacking else Color(0,1,0))
+		PlyrAtkIcon.frame = 1 if playerAttacking else 0
+		OpntAtkIcon.frame = 1 if !playerAttacking else 0
+		Turn.text = 'Turn ' + str(turnNumber)
 		
 func _on_lock_in_pressed():
-	opponentHp -= 1
+	if !lockedIn && matchId && userId && playerChoice:
+		lockedIn = true
+		emit_signal("lock_in", matchId, userId, playerChoice)
 
 func _on_one_pressed():
-	playerChoice = '1'
+	if !lockedIn:
+		playerChoice = '1'
 
 func _on_zero_pressed():
-	playerChoice = '0'
+	if !lockedIn:
+		playerChoice = '0'
