@@ -17,4 +17,10 @@ func _process(delta):
 func _on_play_pressed():
 	Menu.visible = false
 	Lobby.visible = true
-#	Game.startGame()
+	Game.visible = false
+
+func _on_lobby_start_match(userId, matchId):
+	Menu.visible = false
+	Lobby.visible = false
+	Game.visible = true
+	Game.startGame(userId, matchId)

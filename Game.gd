@@ -14,6 +14,9 @@ extends Node2D
 @onready var OpntHp = find_child("OpntHp")
 @onready var OpntAtkIcon = find_child("OpntAtkIcon")
 
+var userId = null
+var matchId = null
+
 var paused = true
 var playerHp
 var opponentHp
@@ -21,7 +24,7 @@ var playerChoice
 var opponentChoice
 var opponentText
 
-func startGame():
+func startGame(userId, matchId):
 	playerHp = 5
 	opponentHp = 5
 	playerChoice = '?'

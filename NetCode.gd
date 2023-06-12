@@ -2,6 +2,8 @@ extends Node2D
 
 signal register_response
 signal users_response
+signal challenge_user_response
+signal accept_challenge_response
 
 var serverHost = "http://localhost:3000"
 
@@ -16,8 +18,11 @@ func GET(url, callback):
 	await get_tree().create_timer(30).timeout
 	http_request.queue_free()
 
+# Lobby
+
 func _on_lobby_register(name):
-	GET(serverHost + '/lobby/register/' + name, _on_register_response)
+	if name:
+		GET(serverHost + '/lobby/register/' + name, _on_register_response)
 	
 func _on_register_response(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
@@ -33,3 +38,23 @@ func _on_load_users_response(result, response_code, headers, body):
 	print(json)
 	if (json && json.has("data") && len(json.data) > 0):
 		emit_signal("users_response", json.data)
+
+func _on_lobby_challenge_user(userId, challengerId):
+	if userId && challengerId:
+		GET(serverHost + '/lobby/challenge/' + userId + '/' + challengerId ,
+		_on_challenge_user_response)
+
+func _on_challenge_user_response(result, response_code, headers, body):
+	var json = JSON.parse_string(body.get_string_from_utf8())
+	print(json)
+	emit_signal("challenge_user_response")
+
+func _on_lobby_accept_challenge(userId, challengerId):
+	if userId && challengerId:
+		GET(serverHost + '/lobby/accept/' + userId + '/' + challengerId ,
+		_on_accept_challenge_response)
+
+func _on_accept_challenge_response(result, response_code, headers, body):
+	var json = JSON.parse_string(body.get_string_from_utf8())
+	print(json)
+	emit_signal("accept_challenge_response")

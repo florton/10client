@@ -31,6 +31,7 @@ animations = [{
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_ksrux")
+metadata/_edit_horizontal_guides_ = [265.0]
 
 [node name="NetCode" type="Node2D" parent="."]
 script = ExtResource("2_x4vic")
@@ -83,6 +84,7 @@ offset_top = 521.0
 offset_right = 865.0
 offset_bottom = 582.0
 theme_override_font_sizes/font_size = 30
+scroll_fit_content_height = true
 
 [node name="Challenge" type="Button" parent="Lobby"]
 offset_left = 904.0
@@ -91,6 +93,14 @@ offset_right = 1053.0
 offset_bottom = 314.0
 theme_override_font_sizes/font_size = 30
 text = "Challenge"
+
+[node name="Accept" type="Button" parent="Lobby"]
+offset_left = 85.0
+offset_top = 264.0
+offset_right = 234.0
+offset_bottom = 314.0
+theme_override_font_sizes/font_size = 30
+text = "Accept"
 
 [node name="Menu" type="Node2D" parent="."]
 visible = false
@@ -238,12 +248,18 @@ offset_bottom = 638.0
 theme_override_font_sizes/font_size = 25
 text = "Buy Platium Tokens"
 
+[connection signal="accept_challenge_response" from="NetCode" to="Lobby" method="_on_net_code_accept_challenge_response"]
+[connection signal="challenge_user_response" from="NetCode" to="Lobby" method="_on_net_code_challenge_user_response"]
 [connection signal="register_response" from="NetCode" to="Lobby" method="_on_net_code_register_response"]
 [connection signal="users_response" from="NetCode" to="Lobby" method="_on_net_code_users_response"]
+[connection signal="accept_challenge" from="Lobby" to="NetCode" method="_on_lobby_accept_challenge"]
+[connection signal="challenge_user" from="Lobby" to="NetCode" method="_on_lobby_challenge_user"]
 [connection signal="load_users" from="Lobby" to="NetCode" method="_on_lobby_load_users"]
 [connection signal="register" from="Lobby" to="NetCode" method="_on_lobby_register"]
+[connection signal="start_match" from="Lobby" to="." method="_on_lobby_start_match"]
 [connection signal="pressed" from="Lobby/Register" to="Lobby" method="_on_register_pressed"]
 [connection signal="pressed" from="Lobby/Challenge" to="Lobby" method="_on_challenge_pressed"]
+[connection signal="pressed" from="Lobby/Accept" to="Lobby" method="_on_accept_pressed"]
 [connection signal="pressed" from="Menu/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Game/Controls/LockIn" to="Game" method="_on_lock_in_pressed"]
 [connection signal="pressed" from="Game/Controls/One" to="Game" method="_on_one_pressed"]
