@@ -72,9 +72,12 @@ func checkDeaths():
 	if playerHp <= 0:
 		gameOver = true
 		outcome = "You \n Lose!"
+		return true
 	if opponentHp <= 0:
 		gameOver = true
 		outcome = "You \n Win!"
+		return true
+	return false
 
 func _on_net_code_load_match_response(matchData):
 	if matchData && matchData.players:
@@ -96,13 +99,13 @@ func _on_net_code_load_match_response(matchData):
 		opponentLockedIn = false
 		endturn = true
 	elif endturn:
-		opponentChoice = '?'
-		playerChoice = '?'
-		playerPrevChoice = player.prevChoice
-		opponentPrevChoice = opponent.prevChoice
+		if !checkDeaths():
+			opponentChoice = '?'
+			playerChoice = '?'
+			playerPrevChoice = player.prevChoice
+			opponentPrevChoice = opponent.prevChoice
 		lockedIn = false
 		endturn = false
-		checkDeaths()
 	playerAttacking = matchData.attacker == userId
 
 func startGame(uId, mId):

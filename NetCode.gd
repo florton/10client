@@ -1,5 +1,7 @@
 extends Node2D
 
+const uuid_util = preload('res://uuid.gd')
+
 signal register_response
 signal users_response
 signal challenge_user_response
@@ -10,14 +12,17 @@ signal lock_in_response
 
 var serverHost = "http://localhost:3000"
 
+var clientId = ''
+
 func _ready():
-	pass
+	clientId = uuid_util.v4()
 	
 func GET(url, callback):
 	var http_request = HTTPRequest.new()
 	add_child(http_request)
 	http_request.request_completed.connect(callback)
-	http_request.request(url)
+	var headers = ["Referer: " + clientId]
+	http_request.request(url, headers)
 	await get_tree().create_timer(30).timeout
 	http_request.queue_free()
 
