@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgh2docfd8jc6"]
+
+[ext_resource type="Theme" uid="uid://cxkwgo7u3blha" path="res://defalt.tres" id="1_i2k6s"]
+
+[node name="One" type="Button"]
+offset_left = 78.0
+offset_top = 455.0
+offset_right = 208.0
+offset_bottom = 591.0
+theme = ExtResource("1_i2k6s")
+theme_override_font_sizes/font_size = 50
+text = "1"

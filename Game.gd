@@ -19,6 +19,7 @@ extends Node2D
 @onready var OpntAtkIcon = Info.find_child("OpntAtkIcon")
 @onready var Turn = Info.find_child("Turn")
 @onready var Outcome = Info.find_child("Outcome")
+@onready var wheel = Info.find_child("Wheel")
 
 signal load_match
 signal lock_in
@@ -144,6 +145,7 @@ func _process(delta):
 		OpntAttacking.text = 'Attacking' if !playerAttacking else 'Defending'
 		OpntAttacking.set("theme_override_colors/font_color", Color(1,0,0) if playerAttacking else Color(0,1,0))
 		PlyrAtkIcon.frame = 1 if playerAttacking else 0
+		wheel.flip_h = false if playerAttacking else true
 		OpntAtkIcon.frame = 1 if !playerAttacking else 0
 		Turn.text = 'Turn ' + str(turnNumber)
 		Outcome.text = strFallback(outcome)
