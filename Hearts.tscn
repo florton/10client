@@ -32,29 +32,29 @@ script = ExtResource("1_d25ph")
 [node name="AnimatedSprite2D5" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 texture_repeat = 1
-position = Vector2(407.333, -0.666667)
+position = Vector2(-2.66667, -0.666667)
 sprite_frames = SubResource("SpriteFrames_nxx4p")
 
 [node name="AnimatedSprite2D4" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 texture_repeat = 1
-position = Vector2(0, -0.666667)
+position = Vector2(98.8333, -2.16667)
 sprite_frames = SubResource("SpriteFrames_nxx4p")
 
 [node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 texture_repeat = 1
-position = Vector2(91.3333, 2)
+position = Vector2(201.333, -1.83333)
 sprite_frames = SubResource("SpriteFrames_nxx4p")
 
 [node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 texture_repeat = 1
-position = Vector2(192, 0.666667)
+position = Vector2(302.667, -0.166667)
 sprite_frames = SubResource("SpriteFrames_nxx4p")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 texture_repeat = 1
-position = Vector2(299.333, 1.33333)
+position = Vector2(404.167, -1.66667)
 sprite_frames = SubResource("SpriteFrames_nxx4p")

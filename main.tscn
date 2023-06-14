@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b725rf5f38vdo"]
+[gd_scene load_steps=25 format=3 uid="uid://b725rf5f38vdo"]
 
 [ext_resource type="PackedScene" uid="uid://c7lgorhb62ah1" path="res://Hearts.tscn" id="1_4sxdb"]
 [ext_resource type="Script" path="res://main.gd" id="1_ksrux"]
@@ -10,28 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://t1camr4plg17" path="res://assets/10 sprites/Wheel.png" id="8_pdj8j"]
 [ext_resource type="PackedScene" uid="uid://dgh2docfd8jc6" path="res://one.tscn" id="9_1ctqg"]
 [ext_resource type="Theme" uid="uid://cxkwgo7u3blha" path="res://defalt.tres" id="9_f5u62"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tm5qn"]
-atlas = ExtResource("2_t7xfp")
-region = Rect2(0, 0, 20, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_r4oe1"]
-atlas = ExtResource("2_t7xfp")
-region = Rect2(0, 20, 20, 20)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_aovd6"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tm5qn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_r4oe1")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
+[ext_resource type="Texture2D" uid="uid://d228p5a15jt0q" path="res://assets/10 sprites/Incon.png" id="9_vm2ov"]
+[ext_resource type="Texture2D" uid="uid://c6e7uc7oi64p2" path="res://assets/10 sprites/Brain.png" id="10_e51wx"]
 
 [sub_resource type="Animation" id="Animation_62kyl"]
 resource_name = "number idle"
@@ -61,9 +41,256 @@ tracks/1/keys = {
 "values": [Vector2(634, -20), Vector2(634, 0), Vector2(634, -20), Vector2(634, 0), Vector2(634, -20)]
 }
 
+[sub_resource type="Animation" id="Animation_n2qm5"]
+resource_name = "icon idle idle"
+length = 8.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlyrIcon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OpntIcon2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(942, 216), Vector2(951, 318), Vector2(951, 216), Vector2(942, 266), Vector2(951, 318), Vector2(951, 216), Vector2(951, 318), Vector2(951, 216), Vector2(942, 266), Vector2(951, 216), Vector2(942, 266), Vector2(951, 318), Vector2(951, 216), Vector2(951, 318), Vector2(942, 266)]
+}
+
+[sub_resource type="Animation" id="Animation_6uuul"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("OpntIcon2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(947, 293)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlyrIcon:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(261, 281)]
+}
+
+[sub_resource type="Animation" id="Animation_vgl3q"]
+resource_name = "plyr hurt "
+length = 8.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlyrIcon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(261, 281), Vector2(203, 331), Vector2(158, 313), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OpntIcon2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(942, 216), Vector2(951, 318), Vector2(951, 216), Vector2(942, 266), Vector2(951, 318), Vector2(951, 216), Vector2(951, 318), Vector2(951, 216), Vector2(942, 266), Vector2(951, 216), Vector2(942, 266), Vector2(951, 318), Vector2(951, 216), Vector2(951, 318), Vector2(942, 266)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PlyrIcon:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.152941, 0.121569, 1), Color(1, 0.939496, 0.937255, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_a0bmk"]
+resource_name = "plyr def"
+length = 8.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlyrIcon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(261, 281), Vector2(203, 331), Vector2(158, 313), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OpntIcon2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(942, 216), Vector2(951, 318), Vector2(951, 216), Vector2(942, 266), Vector2(951, 318), Vector2(951, 216), Vector2(951, 318), Vector2(951, 216), Vector2(942, 266), Vector2(951, 216), Vector2(942, 266), Vector2(951, 318), Vector2(951, 216), Vector2(951, 318), Vector2(942, 266)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PlyrIcon:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.172549, 0.6, 0.745098, 1), Color(1, 0.939496, 0.937255, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_skpkf"]
+resource_name = "opp def"
+length = 8.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlyrIcon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(261, 281), Vector2(203, 331), Vector2(158, 313), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OpntIcon2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(942, 216), Vector2(951, 318), Vector2(951, 216), Vector2(942, 266), Vector2(951, 318), Vector2(951, 216), Vector2(951, 318), Vector2(951, 216), Vector2(942, 266), Vector2(951, 216), Vector2(942, 266), Vector2(951, 318), Vector2(951, 216), Vector2(951, 318), Vector2(942, 266)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/path = NodePath("PlyrIcon:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 1, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.172549, 0.6, 0.745098, 1), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("OpntIcon2:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1, 1, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.976471, 0.866667, 0.862745, 1), Color(0.196078, 0.698039, 0.772549, 1), Color(0.976471, 0.866667, 0.862745, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yepgp"]
 _data = {
-"number idle": SubResource("Animation_62kyl")
+"RESET": SubResource("Animation_6uuul"),
+"icon idle idle": SubResource("Animation_n2qm5"),
+"number idle": SubResource("Animation_62kyl"),
+"opp def": SubResource("Animation_skpkf"),
+"plyr def": SubResource("Animation_a0bmk"),
+"plyr hurt ": SubResource("Animation_vgl3q")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tm5qn"]
+atlas = ExtResource("2_t7xfp")
+region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r4oe1"]
+atlas = ExtResource("2_t7xfp")
+region = Rect2(0, 20, 20, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aovd6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tm5qn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r4oe1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_60je7"]
+resource_name = "ides"
+length = 8.0
+loop_mode = 1
+tracks/0/type = "animation"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": PackedStringArray("number idle", "number idle", "number idle"),
+"times": PackedFloat32Array(0, 1, 7)
+}
+tracks/1/type = "animation"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": PackedStringArray("icon idle idle"),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_skhb3"]
+_data = {
+"ides": SubResource("Animation_60je7")
 }
 
 [node name="Main" type="Node2D"]
@@ -83,7 +310,6 @@ color = Color(0.0666667, 0.00784314, 0.00392157, 1)
 metadata/_edit_lock_ = true
 
 [node name="Lobby" type="Node2D" parent="."]
-visible = false
 script = ExtResource("3_bw8dh")
 
 [node name="Users" type="ItemList" parent="Lobby"]
@@ -144,7 +370,6 @@ theme_override_font_sizes/font_size = 30
 text = "Accept"
 
 [node name="Menu" type="Node2D" parent="."]
-visible = false
 
 [node name="Play" type="MenuButton" parent="Menu"]
 offset_left = 408.0
@@ -186,11 +411,11 @@ text = "Turn 1"
 horizontal_alignment = 1
 
 [node name="Outcome" type="Label" parent="Game/Info"]
-offset_left = 444.0
-offset_top = 135.0
-offset_right = 706.0
-offset_bottom = 254.0
-theme_override_font_sizes/font_size = 40
+offset_left = 499.0
+offset_top = 79.0
+offset_right = 662.0
+offset_bottom = 195.0
+theme_override_font_sizes/font_size = 29
 text = "Player
 Blocked!"
 horizontal_alignment = 1
@@ -235,21 +460,29 @@ text = "0"
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="Game/Info/PlyrChoice"]
+root_node = NodePath("../..")
+autoplay = "number idle"
+libraries = {
+"": SubResource("AnimationLibrary_yepgp")
+}
+
 [node name="PlyrInfo" type="Label" parent="Game/Info"]
-offset_left = 37.0
-offset_top = 265.0
-offset_right = 361.0
-offset_bottom = 368.0
+offset_left = 64.0
+offset_top = 368.0
+offset_right = 388.0
+offset_bottom = 471.0
 theme_override_font_sizes/font_size = 50
 text = "Locked In"
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="PlyrAttacking" type="Label" parent="Game/Info"]
-offset_left = 295.0
-offset_top = 271.0
-offset_right = 614.0
-offset_bottom = 364.0
+offset_left = 475.0
+offset_top = 258.0
+offset_right = 794.0
+offset_bottom = 351.0
+scale = Vector2(0.660008, 0.660008)
 theme_override_colors/font_color = Color(0, 1, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "Attacking"
@@ -257,8 +490,8 @@ horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="PlyrHp" parent="Game/Info" instance=ExtResource("1_4sxdb")]
-position = Vector2(45, 592)
-scale = Vector2(1, 1)
+position = Vector2(63, 600)
+scale = Vector2(0.647, 0.647)
 
 [node name="PlyrAtkIcon" type="AnimatedSprite2D" parent="Game/Info"]
 visible = false
@@ -278,10 +511,10 @@ text = "0"
 horizontal_alignment = 1
 
 [node name="OpntInfo" type="Label" parent="Game/Info"]
-offset_left = 793.0
-offset_top = 270.0
-offset_right = 1117.0
-offset_bottom = 373.0
+offset_left = 800.0
+offset_top = 266.0
+offset_right = 1124.0
+offset_bottom = 369.0
 theme_override_font_sizes/font_size = 50
 text = "Locked In"
 horizontal_alignment = 1
@@ -315,6 +548,7 @@ text = "0"
 horizontal_alignment = 1
 
 [node name="OpntAttacking" type="Label" parent="Game/Info"]
+visible = false
 offset_left = 542.0
 offset_top = 278.0
 offset_right = 861.0
@@ -325,8 +559,8 @@ text = "Defending"
 horizontal_alignment = 1
 
 [node name="OpntHp" parent="Game/Info" instance=ExtResource("1_4sxdb")]
-position = Vector2(697, 583)
-scale = Vector2(1, 1)
+position = Vector2(1099, 598)
+scale = Vector2(-0.647, 0.647)
 
 [node name="Wheel" type="Sprite2D" parent="Game/Info"]
 position = Vector2(572.5, 396.5)
@@ -339,9 +573,27 @@ position = Vector2(758, 221)
 sprite_frames = SubResource("SpriteFrames_aovd6")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Game/Info"]
-autoplay = "number idle"
+autoplay = "icon idle idle"
 libraries = {
 "": SubResource("AnimationLibrary_yepgp")
+}
+
+[node name="PlyrIcon" type="Sprite2D" parent="Game/Info"]
+modulate = Color(1, 0.939496, 0.937255, 1)
+position = Vector2(261, 281)
+scale = Vector2(2.28125, 2.46875)
+texture = ExtResource("9_vm2ov")
+flip_h = true
+
+[node name="OpntIcon2" type="Sprite2D" parent="Game/Info"]
+modulate = Color(0.976471, 0.866667, 0.862745, 1)
+position = Vector2(947, 293)
+scale = Vector2(2.28125, 2.46875)
+texture = ExtResource("10_e51wx")
+
+[node name="main animation" type="AnimationPlayer" parent="Game/Info"]
+libraries = {
+"": SubResource("AnimationLibrary_skhb3")
 }
 
 [node name="Controls" type="Node2D" parent="Game"]
@@ -368,11 +620,13 @@ text = "0
 "
 
 [node name="$$$" type="Button" parent="Game/Controls"]
+visible = false
 offset_left = 855.0
 offset_top = 551.0
 offset_right = 1149.0
 offset_bottom = 638.0
 theme_override_font_sizes/font_size = 25
+disabled = true
 text = "Buy Platium Tokens"
 
 [node name="One" parent="Game/Controls" instance=ExtResource("9_1ctqg")]

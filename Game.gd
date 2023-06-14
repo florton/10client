@@ -141,14 +141,17 @@ func _process(delta):
 		OpntPrevLabel.visible = boolFallback(opponentPrevChoice)
 		OpntPrev.text = strFallback(opponentPrevChoice)
 		PlyrAttacking.text = 'Attacking' if playerAttacking else 'Defending'
-		PlyrAttacking.set("theme_override_colors/font_color", Color(1,0,0) if !playerAttacking else Color(0,1,0))
+		PlyrAttacking.set("theme_override_colors/font_color", Color(.6,.6,1) if !playerAttacking else Color(1,0,0))
 		OpntAttacking.text = 'Attacking' if !playerAttacking else 'Defending'
-		OpntAttacking.set("theme_override_colors/font_color", Color(1,0,0) if playerAttacking else Color(0,1,0))
+		OpntAttacking.set("theme_override_colors/font_color", Color(1,0,0) if playerAttacking else Color(0.2,1,0.2))
 		PlyrAtkIcon.frame = 1 if playerAttacking else 0
 		wheel.flip_h = false if playerAttacking else true
 		OpntAtkIcon.frame = 1 if !playerAttacking else 0
 		Turn.text = 'Turn ' + str(turnNumber)
 		Outcome.text = strFallback(outcome)
+		PlyrChoice.set("theme_override_colors/font_color", Color(.6,.6,1) if !playerAttacking else Color(1,0,0))
+		OpntChoice.set("theme_override_colors/font_color", Color(1,0,0) if !playerAttacking else Color(.6,.6,1))
+		
 		
 func _on_lock_in_pressed():
 	if !lockedIn && matchId && userId && playerChoice && !gameOver && !endturn:
