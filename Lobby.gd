@@ -7,11 +7,15 @@ signal register
 signal load_users
 signal challenge_user
 signal start_match
+signal quickplay
 
 var userId = null
 var users = []
 
 var isPaused = false
+
+func quickPlay():
+	emit_signal("quickplay")
 
 func loadUsers():
 	if !isPaused:
@@ -70,6 +74,9 @@ func _on_net_code_users_response(usersResp):
 		Users.select(selection[0])
 
 func _on_net_code_register_response(id):
+	userId = id
+	
+func _on_net_code_quickplay_response(id):
 	userId = id
 
 func _on_net_code_challenge_user_response():

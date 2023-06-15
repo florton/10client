@@ -1,0 +1,67 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhx0wbe2nf13r"]
+
+[ext_resource type="Script" path="res://Lobby.gd" id="1_og5fc"]
+
+[node name="Lobby" type="Node2D"]
+script = ExtResource("1_og5fc")
+
+[node name="Users" type="ItemList" parent="."]
+offset_left = 266.0
+offset_top = 110.0
+offset_right = 870.0
+offset_bottom = 461.0
+theme_override_font_sizes/font_size = 20
+
+[node name="Title" type="Label" parent="."]
+offset_left = 463.0
+offset_top = 24.0
+offset_right = 642.0
+offset_bottom = 102.0
+theme_override_font_sizes/font_size = 50
+text = "Lobby"
+horizontal_alignment = 1
+
+[node name="Desc" type="Label" parent="."]
+offset_left = 69.0
+offset_top = 518.0
+offset_right = 248.0
+offset_bottom = 596.0
+theme_override_font_sizes/font_size = 40
+text = "name:"
+horizontal_alignment = 1
+
+[node name="Register" type="Button" parent="."]
+offset_left = 894.0
+offset_top = 518.0
+offset_right = 1029.0
+offset_bottom = 589.0
+theme_override_font_sizes/font_size = 30
+text = "Register"
+
+[node name="Username" type="TextEdit" parent="."]
+offset_left = 260.0
+offset_top = 521.0
+offset_right = 865.0
+offset_bottom = 582.0
+theme_override_font_sizes/font_size = 30
+scroll_fit_content_height = true
+
+[node name="Challenge" type="Button" parent="."]
+offset_left = 904.0
+offset_top = 264.0
+offset_right = 1053.0
+offset_bottom = 314.0
+theme_override_font_sizes/font_size = 30
+text = "Challenge"
+
+[node name="Accept" type="Button" parent="."]
+offset_left = 85.0
+offset_top = 264.0
+offset_right = 234.0
+offset_bottom = 314.0
+theme_override_font_sizes/font_size = 30
+text = "Accept"
+
+[connection signal="pressed" from="Register" to="." method="_on_register_pressed"]
+[connection signal="pressed" from="Challenge" to="." method="_on_challenge_pressed"]
+[connection signal="pressed" from="Accept" to="." method="_on_accept_pressed"]

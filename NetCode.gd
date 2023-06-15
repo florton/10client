@@ -5,6 +5,7 @@ const uuid_util = preload('res://uuid.gd')
 signal register_response
 signal users_response
 signal challenge_user_response
+signal quickplay_response
 
 signal load_match_response
 signal lock_in_response
@@ -55,6 +56,15 @@ func _on_challenge_user_response(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
 	print(json)
 	emit_signal("challenge_user_response") # not being used
+
+func _on_lobby_quickplay():
+	GET(serverHost + '/lobby/quickplay/', _on_quickplay_response)
+
+func _on_quickplay_response(result, response_code, headers, body):
+	var json = JSON.parse_string(body.get_string_from_utf8())
+	print(json)
+	if (json && json.has("data") && len(json.data) > 0):
+		emit_signal("quickplay_response", json.data)
 
 # Match
 
