@@ -5,25 +5,29 @@ extends Node2D
 @onready var Game = find_child("Game")
 @onready var QuickPlay = find_child("QuickPlay")
 
-func showScene(group):
-	for s in get_children():
-		s.visible = s.is_in_group(group) || s.is_in_group("ignore")
+var scenes = []
+
+func showScene(scene):
+	for s in scenes:
+		s.visible = s == scene
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	showScene("menu")
+	scenes = [Menu, Lobby, Game, QuickPlay]
+	showScene(Menu)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 
 func _on_lobby_pressed():
-	showScene("lobby")
+	showScene(Lobby)
 
 func _on_lobby_start_match(userId, matchId):
-	showScene("game")
+	print('here')
+	showScene(Game)
 	Game.startGame(userId, matchId)
 
 func _on_quickplay_pressed():
-	showScene("quickplay")
+	showScene(QuickPlay)
 	Lobby.quickPlay()

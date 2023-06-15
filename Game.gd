@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var Info = find_child("Info")
+@onready var Rematch = find_child("Rematch")
 @onready var PlyrName = Info.find_child("PlyrName")
 @onready var PlyrChoice = Info.find_child("PlyrChoice")
 @onready var PlyrInfo = Info.find_child("PlyrInfo")
@@ -23,6 +24,8 @@ extends Node2D
 
 signal load_match
 signal lock_in
+signal challenge_user
+signal await_match
 
 var isPaused = true
 
@@ -48,12 +51,12 @@ var outcome
 var endturn = false
 var gameOver = false
 
-func loadMatch(id):
+func loadMatch():
 	if !isPaused && !gameOver:
-		emit_signal("load_match", id)
+		emit_signal("load_match", matchId)
 		print("load match")
 		await get_tree().create_timer(2).timeout
-		loadMatch(id)
+		loadMatch()
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -105,11 +108,15 @@ func _on_net_code_load_match_response(matchData):
 			playerChoice = '?'
 			playerPrevChoice = player.prevChoice
 			opponentPrevChoice = opponent.prevChoice
+		else:
+			Rematch.visible = true
 		lockedIn = false
 		endturn = false
 	playerAttacking = matchData.attacker == userId
 
 func startGame(uId, mId):
+	Rematch.visible = false
+	Rematch.sent = false
 	userId = uId
 	matchId = mId
 	playerHp = 5
@@ -117,7 +124,10 @@ func startGame(uId, mId):
 	playerChoice = '?'
 	opponentChoice = '?'
 	isPaused = false
-	loadMatch(matchId)
+	gameOver = false
+	turnNumber = 0
+	outcome = ""
+	loadMatch()
 
 func strFallback(val):
 	return val if val else ''
@@ -132,8 +142,8 @@ func _process(delta):
 		OpntName.text = strFallback(opponentName)
 		PlyrHp.hp = playerHp
 		OpntHp.hp = opponentHp
-		PlyrChoice.text = playerChoice
-		OpntChoice.text = opponentChoice
+		PlyrChoice.text = strFallback(playerChoice)
+		OpntChoice.text = strFallback(opponentChoice)
 		PlyrInfo.text = '' if !lockedIn || endturn else 'Locked In'
 		OpntInfo.text = '' if endturn else ('Choosing' if !opponentLockedIn else 'Locked In')
 		PlyrPrevLabel.visible = boolFallback(playerPrevChoice)
@@ -166,6 +176,13 @@ func _on_one_pressed():
 func _on_zero_pressed():
 	if !lockedIn && !gameOver && !endturn:
 		playerChoice = '0'
+		
+func _on_rematch_button_pressed():
+	Rematch.sent = true
+	emit_signal("challenge_user", userId, opponentId)
+	emit_signal("await_match")
 
 func _on_net_code_lock_in_response():
 	pass # Replace with function body.
+
+

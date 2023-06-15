@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://f4su4n1dfej3"]
+[gd_scene load_steps=23 format=3 uid="uid://f4su4n1dfej3"]
 
 [ext_resource type="Script" path="res://Game.gd" id="1_uh7cv"]
 [ext_resource type="Texture2D" uid="uid://bhwiobg1kp48m" path="res://assets/10 sprites/Base.png" id="2_ktgkl"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://c6e7uc7oi64p2" path="res://assets/10 sprites/Brain.png" id="7_jrfyw"]
 [ext_resource type="Theme" uid="uid://cxkwgo7u3blha" path="res://defalt.tres" id="8_a6dt7"]
 [ext_resource type="PackedScene" uid="uid://dgh2docfd8jc6" path="res://one.tscn" id="9_s4cwf"]
+[ext_resource type="Script" path="res://Rematch.gd" id="10_r12ne"]
 
 [sub_resource type="Animation" id="Animation_6uuul"]
 length = 0.001
@@ -311,16 +312,6 @@ theme_override_font_sizes/font_size = 40
 text = "Turn 1"
 horizontal_alignment = 1
 
-[node name="Outcome" type="Label" parent="Info"]
-offset_left = 499.0
-offset_top = 79.0
-offset_right = 662.0
-offset_bottom = 195.0
-theme_override_font_sizes/font_size = 29
-text = "Player
-Blocked!"
-horizontal_alignment = 1
-
 [node name="PlyrName" type="Label" parent="Info"]
 offset_left = 23.0
 offset_top = -5.0
@@ -499,6 +490,16 @@ libraries = {
 "": SubResource("AnimationLibrary_skhb3")
 }
 
+[node name="Outcome" type="Label" parent="Info"]
+offset_left = 433.0
+offset_top = 79.0
+offset_right = 723.0
+offset_bottom = 195.0
+theme_override_font_sizes/font_size = 29
+text = "Player
+Blocked!"
+horizontal_alignment = 1
+
 [node name="Controls" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
 
@@ -538,6 +539,34 @@ offset_top = 334.0
 offset_right = 147.0
 offset_bottom = 470.0
 
+[node name="Rematch" type="Node2D" parent="."]
+script = ExtResource("10_r12ne")
+
+[node name="ColorRect" type="ColorRect" parent="Rematch"]
+offset_left = 372.0
+offset_top = 349.0
+offset_right = 787.0
+offset_bottom = 561.0
+mouse_filter = 2
+color = Color(0, 0, 0.188235, 1)
+
+[node name="Rematch_Button" type="Button" parent="Rematch"]
+offset_left = 425.0
+offset_top = 356.0
+offset_right = 733.0
+offset_bottom = 494.0
+theme_override_font_sizes/font_size = 60
+text = "Rematch"
+
+[node name="Sent" type="Label" parent="Rematch"]
+offset_left = 465.0
+offset_top = 502.0
+offset_right = 679.0
+offset_bottom = 547.0
+theme_override_font_sizes/font_size = 30
+text = "Challenge Sent"
+
 [connection signal="pressed" from="Controls/LockIn" to="." method="_on_lock_in_pressed"]
 [connection signal="pressed" from="Controls/Zero" to="." method="_on_zero_pressed"]
 [connection signal="pressed" from="Controls/One" to="." method="_on_one_pressed"]
+[connection signal="pressed" from="Rematch/Rematch_Button" to="." method="_on_rematch_button_pressed"]

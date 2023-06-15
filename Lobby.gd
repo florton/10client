@@ -27,6 +27,10 @@ func loadUsers():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	loadUsers()
+	
+func _on_game_await_match():
+	isPaused = false
+	loadUsers()
 
 func _on_register_pressed():
 	if (len(Username.text) > 0 && userId == null):
