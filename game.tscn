@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://f4su4n1dfej3"]
+[gd_scene load_steps=27 format=3 uid="uid://f4su4n1dfej3"]
 
 [ext_resource type="Script" path="res://Game.gd" id="1_uh7cv"]
 [ext_resource type="Texture2D" uid="uid://bhwiobg1kp48m" path="res://assets/10 sprites/Base.png" id="2_ktgkl"]
@@ -150,7 +150,6 @@ tracks/3/keys = {
 [sub_resource type="Animation" id="Animation_a0bmk"]
 resource_name = "plyr def"
 length = 8.0
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -191,7 +190,6 @@ tracks/2/keys = {
 [sub_resource type="Animation" id="Animation_vgl3q"]
 resource_name = "plyr hurt "
 length = 8.0
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -226,7 +224,59 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 1, 7.5),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 0.152941, 0.121569, 1), Color(1, 0.939496, 0.937255, 1)]
+"values": [Color(1, 1, 1, 1), Color(1, 0.152941, 0.121569, 1), Color(1, 0.941176, 0.937255, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_lumfa"]
+resource_name = "opp hurt"
+length = 8.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlyrIcon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(261, 281), Vector2(203, 331), Vector2(158, 313), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331), Vector2(203, 216), Vector2(203, 331)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OpntIcon2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(942, 216), Vector2(951, 318), Vector2(951, 216), Vector2(942, 266), Vector2(951, 318), Vector2(951, 216), Vector2(951, 318), Vector2(951, 216), Vector2(942, 266), Vector2(951, 216), Vector2(942, 266), Vector2(951, 318), Vector2(951, 216), Vector2(951, 318), Vector2(942, 266)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/path = NodePath("PlyrIcon:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 1, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.172549, 0.6, 0.745098, 1), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("OpntIcon2:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1, 1, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.976471, 0.866667, 0.862745, 1), Color(0.972549, 0.141176, 0.14902, 1), Color(0.976471, 0.866667, 0.862745, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yepgp"]
@@ -235,6 +285,7 @@ _data = {
 "icon idle idle": SubResource("Animation_n2qm5"),
 "number idle": SubResource("Animation_62kyl"),
 "opp def": SubResource("Animation_skpkf"),
+"opp hurt": SubResource("Animation_lumfa"),
 "plyr def": SubResource("Animation_a0bmk"),
 "plyr hurt ": SubResource("Animation_vgl3q")
 }
@@ -261,10 +312,9 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Animation" id="Animation_60je7"]
-resource_name = "ides"
-length = 8.0
-loop_mode = 1
+[sub_resource type="Animation" id="Animation_6rbgr"]
+resource_name = "player h"
+length = 12.0
 tracks/0/type = "animation"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -272,23 +322,58 @@ tracks/0/path = NodePath("AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"clips": PackedStringArray("number idle", "number idle", "number idle"),
-"times": PackedFloat32Array(0, 1, 7)
+"clips": PackedStringArray("plyr hurt ", "icon idle idle"),
+"times": PackedFloat32Array(0, 7.8)
 }
-tracks/1/type = "animation"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("AnimationPlayer")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"clips": PackedStringArray("icon idle idle"),
-"times": PackedFloat32Array(0)
+
+[sub_resource type="Animation" id="Animation_ieuq5"]
+resource_name = "player b"
+length = 12.0
+tracks/0/type = "animation"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": PackedStringArray("plyr def", "icon idle idle"),
+"times": PackedFloat32Array(0.1, 8.3)
+}
+
+[sub_resource type="Animation" id="Animation_4y52t"]
+resource_name = "op b"
+length = 12.0
+tracks/0/type = "animation"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": PackedStringArray("opp def", "icon idle idle"),
+"times": PackedFloat32Array(0.1, 8.1)
+}
+
+[sub_resource type="Animation" id="Animation_6jjfv"]
+resource_name = "op h"
+length = 12.0
+tracks/0/type = "animation"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": PackedStringArray("opp hurt", "icon idle idle"),
+"times": PackedFloat32Array(0.1, 8.2)
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_skhb3"]
 _data = {
-"ides": SubResource("Animation_60je7")
+"op b": SubResource("Animation_4y52t"),
+"op h": SubResource("Animation_6jjfv"),
+"player b": SubResource("Animation_ieuq5"),
+"player h": SubResource("Animation_6rbgr")
 }
 
 [node name="Game" type="Node2D"]
@@ -342,9 +427,8 @@ horizontal_alignment = 1
 
 [node name="PlyrChoice" type="Label" parent="Info"]
 offset_left = 409.0
-offset_top = -20.0
 offset_right = 531.0
-offset_bottom = 188.0
+offset_bottom = 208.0
 theme_override_colors/font_color = Color(0, 0.694118, 1, 1)
 theme_override_font_sizes/font_size = 150
 text = "0"
@@ -394,9 +478,8 @@ frame = 1
 
 [node name="OpntChoice" type="Label" parent="Info"]
 offset_left = 634.0
-offset_top = -20.0
 offset_right = 750.0
-offset_bottom = 188.0
+offset_bottom = 208.0
 theme_override_colors/font_color = Color(0.764706, 0, 0, 1)
 theme_override_font_sizes/font_size = 150
 text = "0"
@@ -479,7 +562,7 @@ texture = ExtResource("6_so7k8")
 flip_h = true
 
 [node name="OpntIcon2" type="Sprite2D" parent="Info"]
-modulate = Color(0.976471, 0.866667, 0.862745, 1)
+modulate = Color(0.889761, 0.847931, 0.852723, 1)
 position = Vector2(947, 293)
 scale = Vector2(2.28125, 2.46875)
 texture = ExtResource("7_jrfyw")

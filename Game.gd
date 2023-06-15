@@ -21,6 +21,7 @@ extends Node2D
 @onready var Turn = Info.find_child("Turn")
 @onready var Outcome = Info.find_child("Outcome")
 @onready var wheel = Info.find_child("Wheel")
+@onready var anim = Info.find_child("main animation")
 
 signal load_match
 signal lock_in
@@ -28,6 +29,7 @@ signal challenge_user
 signal await_match
 
 var isPaused = true
+var iconanim
 
 var userId = null
 var matchId = null
@@ -63,11 +65,20 @@ func _ready():
 	pass
 
 func getOutcome(pAttacking, pChoice, oChoice):
-	var defenderName = strFallback(opponentName if pAttacking else playerName)
+	var defenderName = strFallback(opponentName if pAttacking else "You")
 	if pChoice == oChoice:
+		if pAttacking:
+			anim.play("op b")
+		else:
+			anim.play("player b")
 		return defenderName + '\n Blocked!'
+		
 	else:
 		var damage = '1'
+		if pAttacking:
+			anim.play("op h")
+		else:
+			anim.play("player h")
 		if (pAttacking && pChoice == '1') || (!pAttacking && oChoice == '1'):
 			damage = '2'
 		return defenderName + '\n Took ' + damage + '\n Damage'
