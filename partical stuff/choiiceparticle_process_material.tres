@@ -1,0 +1,25 @@
+[gd_resource type="ParticleProcessMaterial" load_steps=5 format=3 uid="uid://0jxc2226lftj"]
+
+[ext_resource type="Texture2D" uid="uid://d2q6n2cen2112" path="res://partical stuff/new_gradient_texture_1d.tres" id="1_t5bjv"]
+
+[sub_resource type="Curve" id="Curve_mgquk"]
+_data = [Vector2(0, 0.627273), 0.0, 0.0, 0, 0, Vector2(0.385542, 0.527273), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_lii8p"]
+_data = [Vector2(0, 0.654545), 0.0, 0.0, 0, 0, Vector2(0.433735, 0.572727), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_iigfk"]
+curve_x = SubResource("Curve_mgquk")
+curve_y = SubResource("Curve_lii8p")
+
+[resource]
+particle_flag_disable_z = true
+gravity = Vector3(-20, 25, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.2
+scale_max = 0.2
+scale_curve = SubResource("CurveXYZTexture_iigfk")
+color_ramp = ExtResource("1_t5bjv")
