@@ -1,19 +1,24 @@
 extends Node2D
 
 @onready var Info = find_child("Info")
+
+@onready var Choices = Info.find_child("Choices")
+@onready var PlyrChoice = Choices.find_child("PlyrChoice")
+@onready var PlyrPrev = Choices.find_child("PlyrPrev")
+@onready var PlyrPrevPrev = Choices.find_child("PlyrPrevPrev")
+@onready var OpntChoice = Choices.find_child("OpntChoice")
+@onready var OpntPrev = Choices.find_child("OpntPrev")
+@onready var OpntPrevPrev = Choices.find_child("OpntPrevPrev")
+
 @onready var Rematch = find_child("Rematch")
 @onready var PlyrName = Info.find_child("PlyrName")
-@onready var PlyrChoice = Info.find_child("PlyrChoice")
 @onready var PlyrInfo = Info.find_child("PlyrInfo")
-@onready var PlyrPrev = Info.find_child("PlyrPrev")
-@onready var PlyrPrevLabel = Info.find_child("PlyrPrevLabel")
+@onready var PlyrIcon = Info.find_child("PlyrIcon")
 @onready var PlyrAttacking = Info.find_child("PlyrAttacking")
 @onready var PlyrHp = Info.find_child("PlyrHp")
 @onready var PlyrAtkIcon = Info.find_child("PlyrAtkIcon")
-@onready var OpntChoice = Info.find_child("OpntChoice")
 @onready var OpntInfo = Info.find_child("OpntInfo")
-@onready var OpntPrev = Info.find_child("OpntPrev")
-@onready var OpntPrevLabel = Info.find_child("OpntPrevLabel")
+@onready var OpntIcon = Info.find_child("OpntIcon")
 @onready var OpntName = Info.find_child("OpntName")
 @onready var OpntAttacking = Info.find_child("OpntAttacking")
 @onready var OpntHp = Info.find_child("OpntHp")
@@ -27,6 +32,10 @@ signal load_match
 signal lock_in
 signal challenge_user
 signal await_match
+
+var rng = RandomNumberGenerator.new()
+const playerColor = Color(0, 0.69411766529083, 1)
+const opponentColor = Color(0.76470589637756, 0, 0)
 
 var isPaused = true
 var iconanim
@@ -44,9 +53,11 @@ var playerName
 var opponentName
 var playerChoice
 var playerPrevChoice
+var playerPrevPrevChoice
 var playerHp
 var opponentChoice
 var opponentPrevChoice
+var opponentPrevPrevChoice
 var opponentHp
 var outcome
 
@@ -62,7 +73,8 @@ func loadMatch():
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	PlyrIcon.frame = rng.randi_range(0, 15)
+	OpntIcon.frame = rng.randi_range(0, 15)
 
 func getOutcome(pAttacking, pChoice, oChoice):
 	var defenderName = strFallback(opponentName if pAttacking else "You")
@@ -81,7 +93,7 @@ func getOutcome(pAttacking, pChoice, oChoice):
 			anim.play("player h")
 		if (pAttacking && pChoice == '1') || (!pAttacking && oChoice == '1'):
 			damage = '2'
-		return defenderName + '\n Took ' + damage + '\n Damage'
+		return defenderName + '\n Took ' + damage + ' Damage'
 		
 func checkDeaths():
 	if playerHp <= 0:
@@ -117,7 +129,9 @@ func _on_net_code_load_match_response(matchData):
 		if !checkDeaths():
 			opponentChoice = '?'
 			playerChoice = '?'
+			playerPrevPrevChoice = playerPrevChoice
 			playerPrevChoice = player.prevChoice
+			opponentPrevPrevChoice = opponentPrevChoice
 			opponentPrevChoice = opponent.prevChoice
 		else:
 			Rematch.visible = true
@@ -153,14 +167,8 @@ func _process(delta):
 		OpntName.text = strFallback(opponentName)
 		PlyrHp.hp = playerHp
 		OpntHp.hp = opponentHp
-		PlyrChoice.text = strFallback(playerChoice)
-		OpntChoice.text = strFallback(opponentChoice)
 		PlyrInfo.text = '' if !lockedIn || endturn else 'Locked In'
 		OpntInfo.text = '' if endturn else ('Choosing' if !opponentLockedIn else 'Locked In')
-		PlyrPrevLabel.visible = boolFallback(playerPrevChoice)
-		PlyrPrev.text = strFallback(playerPrevChoice)
-		OpntPrevLabel.visible = boolFallback(opponentPrevChoice)
-		OpntPrev.text = strFallback(opponentPrevChoice)
 		PlyrAttacking.text = 'Attacking' if playerAttacking else 'Defending'
 		PlyrAttacking.set("theme_override_colors/font_color", Color(.6,.6,1) if !playerAttacking else Color(1,0,0))
 		OpntAttacking.text = 'Attacking' if !playerAttacking else 'Defending'
@@ -170,8 +178,18 @@ func _process(delta):
 		OpntAtkIcon.frame = 1 if !playerAttacking else 0
 		Turn.text = 'Turn ' + str(turnNumber)
 		Outcome.text = strFallback(outcome)
-		PlyrChoice.set("theme_override_colors/font_color", Color(.6,.6,1) if !playerAttacking else Color(1,0,0))
-		OpntChoice.set("theme_override_colors/font_color", Color(1,0,0) if !playerAttacking else Color(.6,.6,1))
+		PlyrChoice.text = strFallback(playerChoice)
+		OpntChoice.text = strFallback(opponentChoice)
+		PlyrPrev.text = strFallback(playerPrevChoice)
+		PlyrPrevPrev.text = strFallback(playerPrevPrevChoice)
+		OpntPrev.text = strFallback(opponentPrevChoice)
+		OpntPrevPrev.text = strFallback(opponentPrevPrevChoice)
+		PlyrChoice.set("theme_override_colors/font_color", playerColor if playerAttacking else opponentColor)
+		PlyrPrev.set("theme_override_colors/font_color", playerColor if playerAttacking else opponentColor)
+		PlyrPrevPrev.set("theme_override_colors/font_color", playerColor if playerAttacking else opponentColor)
+		OpntChoice.set("theme_override_colors/font_color",playerColor if !playerAttacking else opponentColor)
+		OpntPrev.set("theme_override_colors/font_color",playerColor if !playerAttacking else opponentColor)
+		OpntPrevPrev.set("theme_override_colors/font_color",playerColor if !playerAttacking else opponentColor)
 		
 		
 func _on_lock_in_pressed():
